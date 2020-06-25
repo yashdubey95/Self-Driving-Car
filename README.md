@@ -32,9 +32,11 @@ As the agent explores the environment further and further, the amount of informa
 The Bellman Equation is at the core of the Q-learning algorithm and one of the key equations in the world of reinforcement learning as it helps in finding the optimal policy and value functions. 
 The Bellman Equation can solve the Markov Decision Process, also since it is recursive in nature it starts from the max reward and works it way backward and thus allows for the rewards from the future states to propagate far-off past states.
 The Bellman Equation for a deterministic environment states that the value of a given state "V(s)" is equal to the max action (action which maximises the value) of the sum of the reward of the optimal action in the given state "R(s,a)" and product of the discount factor "γ"(diminishes the reward over time) and the next state’s value V(s').
+
 ![alt text](https://github.com/yashdubey95/Self-Driving-Car/blob/master/images/BEDE.png)
 
 For a stochastic environment the Bellman Equation for deterministic environment needs to be modified a little bit in order to factor in the uncertainty as taking an action in a state does not gaurantee that the agent will end up in the intended next state. A variable P(s,a,s') that gives the probability of getting into state s' as a result of an action a while being in state s, summed over the total number of future states. The Bellman Equation for stochastic environment is given below:
+
 ![alt text](https://github.com/yashdubey95/Self-Driving-Car/blob/master/images/BESE.png)
 
 * Example of Optimal Value V(s) for Bellman Equation:-
@@ -57,3 +59,45 @@ The Q-learning algorithm builts on the foundation set by the Bellman Equation to
 
 ![alt text](https://github.com/yashdubey95/Self-Driving-Car/blob/master/images/QLSE.png)
 
+* Bellman Equation v/s Q-Learning:-
+
+![alt text](https://github.com/yashdubey95/Self-Driving-Car/blob/master/images/BLvsQL.png)
+
+Pseudocode of  Q-learning:
+	1. Initialize the Values table "Q(s, a)" randomly.
+  2. Observe the current state "s".
+  3. Choose an action "a" for that state based on one of the action selection policies (eg. epsilon-greedy).
+  4. Take the action, and observe the reward  "r" as well as the new state  "s".
+  5. Update the Value for the state using the observed reward and the maximum reward possible for the next state. The updating is done according to the formula and parameters described above.
+  6. Set the state to the new state, and repeat the process until a terminal state is reached.
+  
+### Deep Q-Learning:
+
+Q-Learning is a powerful algorithm to train an agent through reinforcement learning, but it suffers from the problem of scalability as the number of states and actions become increasingly large, even a simple game of Tic Tac Toe has hundreds of different state-action combinations. To solve this we use a Deep Neural Network (hence the name "Deep Q-Learning") and replace it with the Q-table, this neural network is referred to as an approximator or the approximation function and its job is to approximate or predict those Q-values.
+
+![alt text](https://github.com/yashdubey95/Self-Driving-Car/blob/master/images/QLvsDQL.PNG)
+
+Here the cost function that we aim to minimize is the mean squared error between the predicted Q-value and the target Q-value, now since this is a reinforcement learning task initially there wont be a target/actual Q-value, but after a certain amount time ideally a batch size, we provide the agent with whatever it has learnt in the form of memory to train the network further, thus letting it learn from its experience in the environment, this concept of loading memory buffer after a certain amount of time is known as Experience Replay and it makes sure that the agent keeps on learning top of its new behaviour rather than learning things that are no longer relevant, for example teaching an agent how to run might follow this sequence learn to crawl => learn to walk => learn to run, here it wont make sense for the agent to learn how to crawl again after it has already learnt how to walk.
+
+## Dependencies:
+
+To install all the dependencies for this project use the following code:
+```bash
+conda install -c peterjc123 pytorch-cpu
+conda install -c conda-forge kivy
+conda install matplotlib
+```
+
+## Project Files:
+1. car.kv: Contains the code for the GUI made with Kivy.
+2. ai.py: Contains the PyTorch implementation for the Deep-Q Network architecture.
+3. map.py: Main file that contains the code for the AI part of the project integrating the GUI and the Deep-Q Network.
+
+## Usage:
+To run the project simply run the map.py file using the following command:
+```bash
+python map.py
+```
+
+### Output:
+![alt text](https://github.com/yashdubey95/yashdubey95.github.io/blob/master/assets/img/portfolio/portfolio-2.jpg)
